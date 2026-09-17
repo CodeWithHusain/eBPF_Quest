@@ -1,0 +1,59 @@
+.wrap {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.65rem 1.4rem;
+  font-size: 0.92rem;
+  font-weight: 600;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.buttonPending {
+  opacity: 0.7;
+  cursor: wait;
+}
+
+.buttonMarkComplete {
+  background: var(--brand-cyan, #00f2fe);
+  color: #07090e;
+  border: 1px solid var(--brand-cyan, #00f2fe);
+}
+
+.buttonMarkComplete:hover:not(:disabled) {
+  background: #22f4ff;
+  box-shadow: 0 0 12px rgba(0, 242, 254, 0.4);
+}
+
+.buttonCompleted {
+  background: rgba(16, 185, 129, 0.15);
+  color: var(--brand-green, #10b981);
+  border: 1px solid var(--brand-green, #10b981);
+}
+
+.buttonCompleted:hover:not(:disabled) {
+  background: rgba(16, 185, 129, 0.25);
+}
+
+.guestPrompt {
+  font-size: 0.85rem;
+  color: var(--text-muted, #8b949e);
+}
+
+.guestLink {
+  color: var(--brand-cyan, #00f2fe);
+  text-decoration: underline;
+  margin-left: 0.35rem;
+}
+
+.errorText {
+  font-size: 0.8rem;
+  color: #f85149;
+}

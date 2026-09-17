@@ -1,0 +1,173 @@
+.page {
+  width: 100%;
+}
+
+.missionLayout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-8);
+}
+
+@media (min-width: 1024px) {
+  .missionLayout {
+    grid-template-columns: 1fr 340px;
+    gap: var(--space-10);
+  }
+}
+
+.mainColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+}
+
+.storyCard {
+  background: #0d1117;
+  border: 1px solid var(--border-subtle, #30363d);
+  border-radius: 8px;
+  padding: 1.5rem;
+}
+
+.storyHeading {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #f0f6fc;
+  margin: 0 0 0.75rem 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.storyText {
+  color: #c9d1d9;
+  font-size: 0.95rem;
+  line-height: 1.7;
+  margin: 0;
+  white-space: pre-line;
+}
+
+.sectionBox {
+  background: var(--bg-surface-raised, #161b22);
+  border: 1px solid var(--border-subtle, #30363d);
+  border-radius: 8px;
+  padding: 1.5rem;
+}
+
+.sectionTitle {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #f0f6fc;
+  margin: 0 0 1rem 0;
+}
+
+.instructionsText {
+  color: #c9d1d9;
+  font-size: 0.92rem;
+  line-height: 1.6;
+}
+
+.instructionsText code {
+  background: #07090e;
+  padding: 0.15rem 0.4rem;
+  border-radius: 4px;
+  border: 1px solid var(--border-subtle, #30363d);
+  color: #58a6ff;
+  font-family: var(--font-mono, monospace);
+  font-size: 0.85rem;
+}
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.metaCard {
+  background: var(--bg-surface, #0d1117);
+  border: 1px solid var(--border-subtle, #30363d);
+  border-radius: 8px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.metaHeading {
+  font-size: 0.85rem;
+  font-family: var(--font-mono, monospace);
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--text-muted, #8b949e);
+  letter-spacing: 0.05em;
+  margin-bottom: 0.25rem;
+}
+
+.metaRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.88rem;
+  padding-bottom: 0.6rem;
+  border-bottom: 1px solid var(--border-subtle, #30363d);
+}
+
+.metaRow:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.metaKey {
+  color: var(--text-muted, #8b949e);
+}
+
+.metaVal {
+  color: #f0f6fc;
+  font-weight: 600;
+}
+
+.prereqList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  font-size: 0.82rem;
+}
+
+.prereqItem {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #c9d1d9;
+}
+
+.prereqIconMet {
+  color: var(--brand-green, #10b981);
+}
+
+.prereqIconUnmet {
+  color: var(--text-muted, #8b949e);
+}
+
+.lessonLinkBox {
+  padding: 1rem;
+  background: rgba(0, 242, 254, 0.05);
+  border: 1px solid rgba(0, 242, 254, 0.2);
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.lessonLinkText {
+  font-size: 0.8rem;
+  color: var(--text-muted, #8b949e);
+}
+
+.lessonLinkAnchor {
+  color: var(--brand-cyan, #00f2fe);
+  font-weight: 600;
+  font-size: 0.85rem;
+  text-decoration: underline;
+}

@@ -1,0 +1,110 @@
+.linkWrapper {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  color: inherit;
+}
+
+.linkWrapper:hover {
+  text-decoration: none;
+}
+
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  user-select: none;
+}
+
+/* Icon SVG */
+.icon {
+  flex-shrink: 0;
+  transition: transform var(--transition-normal);
+}
+
+.linkWrapper:hover .icon {
+  transform: scale(1.05);
+}
+
+.hexBg {
+  fill: #0d121a;
+}
+
+.hexBorder {
+  stroke: #30363d;
+  stroke-width: 1.5;
+  fill: none;
+}
+
+.traceLine {
+  stroke: var(--accent-cyan);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.probeLine {
+  stroke: var(--accent-orange);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-dasharray: 2 3;
+}
+
+.hookNode {
+  fill: var(--accent-cyan);
+  stroke: #0d121a;
+  stroke-width: 1.5;
+}
+
+.sparkNode {
+  fill: var(--accent-emerald);
+}
+
+/* Wordmark typography */
+.wordmark {
+  display: inline-flex;
+  align-items: baseline;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+.bpf {
+  font-family: var(--font-mono);
+  font-weight: var(--font-weight-bold);
+  color: var(--text-primary);
+  letter-spacing: -0.04em;
+}
+
+.quest {
+  font-family: var(--font-sans);
+  font-weight: var(--font-weight-semibold);
+  color: var(--accent-cyan);
+}
+
+/* Sizes */
+.sm .icon {
+  width: 20px;
+  height: 20px;
+}
+
+.sm .wordmark {
+  font-size: var(--text-sm);
+}
+
+.md .icon {
+  width: 26px;
+  height: 26px;
+}
+
+.md .wordmark {
+  font-size: var(--text-lg);
+}
+
+.lg .icon {
+  width: 36px;
+  height: 36px;
+}
+
+.lg .wordmark {
+  font-size: var(--text-2xl);
+}

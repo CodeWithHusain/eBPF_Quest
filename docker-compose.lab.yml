@@ -1,0 +1,35 @@
+version: '3.8'
+
+# ==============================================================================
+# BPFQuest Isolated Lab Runner Infrastructure Composition
+#
+# CRITICAL SECURITY POLICIES:
+# 1. Zero exposure of host Docker socket (/var/run/docker.sock) to containers.
+# 2. Labs operate on isolated network with NO internet egress (internal: true).
+# 3. Memory limits (256m) and CPU limits (1.0) strictly enforced.
+# ==============================================================================
+
+services:
+  # Isolated worker daemon - receives queued jobs and orchestrates disposable sandboxes
+  lab-worker:
+    build:
+      context: .
+      dockerfile: labs/ebpf/Dockerfile
+    container_name: bpfquest-lab-worker
+    environment:
+      - NODE_ENV=production
+      - MOCK_EXECUTION=false
+    networks:
+      - lab-sandbox-net
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 256M
+          pids: 64
+    restart: unless-stopped
+
+networks:
+  lab-sandbox-net:
+    driver: bridge
+    internal: true # Disallow all external outbound and inbound Internet traffic

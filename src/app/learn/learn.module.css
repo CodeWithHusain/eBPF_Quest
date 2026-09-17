@@ -1,0 +1,144 @@
+.sectionLeadGroup {
+  margin-bottom: var(--space-6);
+}
+
+.filterBar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: var(--space-8);
+  padding-bottom: var(--space-4);
+  border-bottom: 1px solid var(--border-subtle, #30363d);
+}
+
+.filterBtn {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.82rem;
+  padding: 0.4rem 0.9rem;
+  border-radius: 6px;
+  background: var(--bg-surface, #0d1117);
+  border: 1px solid var(--border-subtle, #30363d);
+  color: var(--text-muted, #8b949e);
+  text-decoration: none;
+  transition: all 0.15s ease;
+}
+
+.filterBtn:hover {
+  color: #f0f6fc;
+  border-color: #58a6ff;
+}
+
+.filterBtnActive {
+  background: rgba(0, 242, 254, 0.12);
+  border-color: var(--brand-cyan, #00f2fe);
+  color: var(--brand-cyan, #00f2fe);
+  font-weight: 600;
+}
+
+.coursesGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-6);
+}
+
+@media (min-width: 640px) {
+  .coursesGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .coursesGrid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.courseCard {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.availableCourse {
+  border-color: rgba(0, 242, 254, 0.35);
+  background: linear-gradient(180deg, rgba(0, 242, 254, 0.04) 0%, var(--bg-card, #161b22) 100%);
+}
+
+.plannedCourse {
+  opacity: 0.85;
+}
+
+.courseHeader {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin-bottom: var(--space-3);
+}
+
+.badgeRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.lessonMeta {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.75rem;
+  color: var(--text-muted, #8b949e);
+}
+
+.courseTitle {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #f0f6fc;
+  margin-bottom: 0.5rem;
+}
+
+.courseDesc {
+  color: var(--text-secondary, #8b949e);
+  font-size: 0.85rem;
+  line-height: 1.5;
+  flex-grow: 1;
+  margin-bottom: 1.25rem;
+}
+
+.progressContainer {
+  margin-bottom: 1.25rem;
+  padding: 0.6rem 0.8rem;
+  background: rgba(0, 0, 0, 0.25);
+  border-radius: 6px;
+  border: 1px solid var(--border-subtle, #30363d);
+}
+
+.progressText {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  color: var(--text-muted, #8b949e);
+  font-family: var(--font-mono, monospace);
+  margin-bottom: 0.35rem;
+}
+
+.progressBar {
+  width: 100%;
+  height: 5px;
+  background: #21262d;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.progressFill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--brand-cyan, #00f2fe), var(--brand-green, #10b981));
+  transition: width 0.3s ease;
+}
+
+.cardAction {
+  margin-top: auto;
+}
+
+.actionButtonRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+}

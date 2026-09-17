@@ -1,0 +1,219 @@
+.workspace {
+  background: var(--bg-surface-raised, #161b22);
+  border: 1px solid var(--border-subtle, #30363d);
+  border-radius: 8px;
+  overflow: hidden;
+  margin-top: 2rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.header {
+  padding: 1rem 1.5rem;
+  background: #0d1117;
+  border-bottom: 1px solid var(--border-subtle, #30363d);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.titleGroup {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #f0f6fc;
+  margin: 0;
+}
+
+.envNotice {
+  padding: 0.85rem 1.5rem;
+  background: rgba(0, 242, 254, 0.04);
+  border-bottom: 1px solid rgba(0, 242, 254, 0.15);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.82rem;
+  color: var(--text-muted, #8b949e);
+  font-family: var(--font-mono, monospace);
+}
+
+.envBadge {
+  color: var(--brand-cyan, #00f2fe);
+  font-weight: 600;
+}
+
+.body {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.stateBox {
+  padding: 1.5rem;
+  background: #0d1117;
+  border: 1px dashed var(--border-subtle, #30363d);
+  border-radius: 6px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.stateText {
+  color: #c9d1d9;
+  font-size: 0.95rem;
+}
+
+.startBtn {
+  background: var(--brand-cyan, #00f2fe);
+  color: #07090e;
+  border: none;
+  font-weight: 700;
+  font-size: 0.95rem;
+  padding: 0.65rem 1.5rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: opacity 0.15s ease;
+}
+
+.startBtn:hover {
+  opacity: 0.9;
+}
+
+.solutionForm {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.inputLabel {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #f0f6fc;
+}
+
+.textInput {
+  background: #07090e;
+  border: 1px solid var(--border-subtle, #30363d);
+  border-radius: 6px;
+  padding: 0.65rem 0.85rem;
+  color: #e6edf3;
+  font-family: var(--font-mono, monospace);
+  font-size: 0.88rem;
+  outline: none;
+  transition: border-color 0.15s ease;
+}
+
+.textInput:focus {
+  border-color: var(--brand-cyan, #00f2fe);
+}
+
+.checkboxRow {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  cursor: pointer;
+  user-select: none;
+  font-size: 0.85rem;
+  color: #c9d1d9;
+}
+
+.checkbox {
+  accent-color: var(--brand-cyan, #00f2fe);
+}
+
+.submitBtn {
+  background: var(--brand-green, #10b981);
+  color: #07090e;
+  border: none;
+  font-weight: 700;
+  font-size: 0.95rem;
+  padding: 0.65rem 1.5rem;
+  border-radius: 6px;
+  cursor: pointer;
+  align-self: flex-start;
+  transition: opacity 0.15s ease;
+}
+
+.submitBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.submitBtn:not(:disabled):hover {
+  opacity: 0.9;
+}
+
+.feedbackBox {
+  padding: 1.25rem;
+  border-radius: 6px;
+  margin-top: 1rem;
+  line-height: 1.5;
+}
+
+.feedbackSuccess {
+  background: rgba(16, 185, 129, 0.12);
+  border: 1px solid var(--brand-green, #10b981);
+  color: #e6edf3;
+}
+
+.feedbackFailed {
+  background: rgba(248, 81, 73, 0.12);
+  border: 1px solid #f85149;
+  color: #e6edf3;
+}
+
+.feedbackHeading {
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 0.4rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.feedbackSuccess .feedbackHeading {
+  color: var(--brand-green, #10b981);
+}
+
+.feedbackFailed .feedbackHeading {
+  color: #f85149;
+}
+
+.feedbackMsg {
+  margin: 0;
+  font-size: 0.88rem;
+}
+
+.guestPrompt {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1.5rem;
+  background: #0d1117;
+  border-radius: 6px;
+  border: 1px solid var(--border-subtle, #30363d);
+}
+
+.signInLink {
+  background: var(--brand-cyan, #00f2fe);
+  color: #07090e;
+  padding: 0.6rem 1.25rem;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-decoration: none;
+}

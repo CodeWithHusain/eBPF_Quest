@@ -1,0 +1,158 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(1, 4, 9, 0.8);
+  backdrop-filter: blur(4px);
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 15vh;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.modal {
+  background: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 10px;
+  width: 100%;
+  max-width: 600px;
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.6);
+  overflow: hidden;
+  animation: fadeIn 0.15s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.searchBar {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.85rem 1rem;
+  border-bottom: 1px solid #30363d;
+  background: #0d1117;
+}
+
+.searchIcon {
+  font-size: 1.1rem;
+  opacity: 0.7;
+}
+
+.searchInput {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: #f0f6fc;
+  font-size: 1rem;
+  outline: none;
+  font-family: inherit;
+}
+
+.searchInput::placeholder {
+  color: #8b949e;
+}
+
+.escKey {
+  background: #21262d;
+  border: 1px solid #30363d;
+  border-radius: 4px;
+  padding: 0.15rem 0.4rem;
+  font-size: 0.7rem;
+  color: #8b949e;
+  cursor: pointer;
+  font-family: monospace;
+}
+
+.resultsList {
+  max-height: 380px;
+  overflow-y: auto;
+  padding: 0.5rem;
+}
+
+.statusMessage {
+  padding: 1.5rem;
+  text-align: center;
+  color: #8b949e;
+  font-size: 0.88rem;
+}
+
+.quickTips {
+  padding: 1rem;
+}
+
+.suggestionBadge {
+  background: #21262d;
+  border: 1px solid #30363d;
+  color: #58a6ff;
+  font-size: 0.8rem;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-family: monospace;
+}
+
+.suggestionBadge:hover {
+  background: #30363d;
+}
+
+.resultItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem;
+  border-radius: 6px;
+  text-decoration: none;
+  color: inherit;
+  transition: background 0.15s;
+}
+
+.resultItem:hover,
+.resultSelected {
+  background: rgba(56, 189, 248, 0.1);
+}
+
+.itemTitle {
+  font-weight: 600;
+  color: #f0f6fc;
+  font-size: 0.95rem;
+}
+
+.itemDesc {
+  font-size: 0.8rem;
+  color: #8b949e;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 480px;
+}
+
+.enterArrow {
+  color: #8b949e;
+  font-size: 0.9rem;
+  opacity: 0.5;
+}
+
+.resultSelected .enterArrow {
+  opacity: 1;
+  color: #38bdf8;
+}
+
+.footer {
+  padding: 0.5rem 1rem;
+  border-top: 1px solid #21262d;
+  background: #0d1117;
+  font-size: 0.75rem;
+  color: #8b949e;
+  display: flex;
+  justify-content: flex-end;
+}

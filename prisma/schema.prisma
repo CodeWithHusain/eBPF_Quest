@@ -1,0 +1,511 @@
+// BPFQuest Prisma Schema - Stage 3 Authentication & User Accounts
+// Datasource: PostgreSQL
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// User accounts and roles
+model User {
+  id            String    @id @default(uuid())
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime? @map("email_verified")
+  image         String?
+  username      String?   @unique
+  passwordHash  String?   @map("password_hash")
+  bio           String?
+  role          Role      @default(STUDENT)
+  createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime  @updatedAt @map("updated_at")
+
+  accounts      Account[]
+  sessions      Session[]
+  progress      Progress[]
+  submissions   Submission[]
+  attempts      MissionAttempt[]
+  completions   MissionCompletion[]
+  achievements  UserBadge[]
+  labs          LabSession[]
+  executionJobs ExecutionJob[]
+  xpTransactions XPTransaction[]
+  userAchievements UserAchievement[]
+  streak        UserStreak?
+
+  @@map("users")
+}
+
+enum Role {
+  STUDENT
+  INSTRUCTOR
+  ADMIN
+}
+
+// NextAuth Account model for OAuth providers (GitHub, etc.)
+model Account {
+  id                String  @id @default(uuid())
+  userId            String  @map("user_id")
+  type              String
+  provider          String
+  providerAccountId String  @map("provider_account_id")
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@map("accounts")
+}
+
+// NextAuth Session model
+model Session {
+  id           String   @id @default(uuid())
+  sessionToken String   @unique @map("session_token")
+  userId       String   @map("user_id")
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("sessions")
+}
+
+// NextAuth VerificationToken model
+model VerificationToken {
+  identifier String
+  token      String
+  expires    DateTime
+
+  @@unique([identifier, token])
+  @@map("verification_tokens")
+}
+
+// Educational Courses (e.g. Linux Fundamentals, eBPF Deep Dive)
+model Course {
+  id               String     @id @default(uuid())
+  slug             String     @unique
+  title            String
+  shortDescription String?    @map("short_description")
+  description      String
+  difficulty       Difficulty @default(BEGINNER)
+  estimatedHours   Int        @default(6) @map("estimated_hours")
+  order            Int        @default(0)
+  isPublished      Boolean    @default(false) @map("is_published")
+  createdAt        DateTime   @default(now()) @map("created_at")
+  updatedAt        DateTime   @updatedAt @map("updated_at")
+
+  modules          Module[]
+
+  @@map("courses")
+}
+
+// Modules within a Course (e.g. Kernel Architecture, System Calls)
+model Module {
+  id          String   @id @default(uuid())
+  courseId    String   @map("course_id")
+  title       String
+  slug        String
+  description String?
+  order       Int      @default(0)
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  course      Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  lessons     Lesson[]
+
+  @@unique([courseId, slug])
+  @@map("modules")
+}
+
+// Individual Lessons
+model Lesson {
+  id               String     @id @default(uuid())
+  moduleId         String     @map("module_id")
+  title            String
+  slug             String
+  description      String?
+  difficulty       Difficulty @default(BEGINNER)
+  estimatedMinutes Int        @default(15) @map("estimated_minutes")
+  order            Int        @default(0)
+  content          String?    // Content text or summary
+  isPublished      Boolean    @default(false) @map("is_published")
+  createdAt        DateTime   @default(now()) @map("created_at")
+  updatedAt        DateTime   @updatedAt @map("updated_at")
+
+  module           Module     @relation(fields: [moduleId], references: [id], onDelete: Cascade)
+  progress         Progress[]
+  missions         Mission[]
+
+  @@unique([moduleId, slug])
+  @@index([slug])
+  @@map("lessons")
+}
+
+// Practical hands-on Missions / CTF-style challenges
+model Mission {
+  id               String              @id @default(uuid())
+  slug             String              @unique
+  title            String
+  shortDescription String?             @map("short_description")
+  description      String
+  story            String?             // Context/scenario narrative
+  instructions     String?             // Step-by-step guidance
+  successCriteria  String?             @map("success_criteria")
+  difficulty       Difficulty          @default(BEGINNER)
+  category         MissionCategory     @default(LINUX)
+  estimatedMinutes Int                 @default(15) @map("estimated_minutes")
+  points           Int                 @default(100)
+  order            Int                 @default(0)
+  isPublished      Boolean             @default(false) @map("is_published")
+  createdAt        DateTime            @default(now()) @map("created_at")
+  updatedAt        DateTime            @updatedAt @map("updated_at")
+
+  // Optional connection to an existing Lesson
+  lessonId         String?             @map("lesson_id")
+  lesson           Lesson?             @relation(fields: [lessonId], references: [id], onDelete: SetNull)
+
+  objectives       MissionObjective[]
+  hints            MissionHint[]
+  prerequisites    MissionPrerequisite[]
+  attempts         MissionAttempt[]
+  completions      MissionCompletion[]
+  submissions      Submission[]
+
+  @@map("missions")
+}
+
+enum MissionCategory {
+  LINUX
+  KERNEL
+  EBPF
+  TRACING
+  NETWORKING
+  SECURITY
+  PERFORMANCE
+  XDP
+}
+
+model MissionObjective {
+  id            String   @id @default(uuid())
+  missionId     String   @map("mission_id")
+  title         String
+  description   String?
+  order         Int      @default(0)
+  validationKey String   @map("validation_key") // Identifier for validator checks
+
+  mission       Mission  @relation(fields: [missionId], references: [id], onDelete: Cascade)
+
+  @@map("mission_objectives")
+}
+
+model MissionHint {
+  id        String   @id @default(uuid())
+  missionId String   @map("mission_id")
+  order     Int      @default(0)
+  title     String
+  content   String
+
+  mission   Mission  @relation(fields: [missionId], references: [id], onDelete: Cascade)
+
+  @@map("mission_hints")
+}
+
+model MissionPrerequisite {
+  id         String   @id @default(uuid())
+  missionId  String   @map("mission_id")
+  type       String   @default("LESSON") // COURSE, LESSON, MISSION
+  targetSlug String   @map("target_slug") // slug of the required item
+  title      String
+  order      Int      @default(0)
+
+  mission    Mission  @relation(fields: [missionId], references: [id], onDelete: Cascade)
+
+  @@map("mission_prerequisites")
+}
+
+model MissionAttempt {
+  id          String               @id @default(uuid())
+  missionId   String               @map("mission_id")
+  userId      String               @map("user_id")
+  status      MissionAttemptStatus @default(IN_PROGRESS)
+  startedAt   DateTime             @default(now()) @map("started_at")
+  submittedAt DateTime?            @map("submitted_at")
+  completedAt DateTime?            @map("completed_at")
+
+  mission     Mission              @relation(fields: [missionId], references: [id], onDelete: Cascade)
+  user        User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, missionId])
+  @@map("mission_attempts")
+}
+
+enum MissionAttemptStatus {
+  NOT_STARTED
+  IN_PROGRESS
+  SUBMITTED
+  COMPLETED
+  ABANDONED
+}
+
+model MissionCompletion {
+  id            String    @id @default(uuid())
+  missionId     String    @map("mission_id")
+  userId        String    @map("user_id")
+  score         Int       @default(100)
+  attemptsCount Int       @default(1) @map("attempts_count")
+  completedAt   DateTime  @default(now()) @map("completed_at")
+
+  mission       Mission   @relation(fields: [missionId], references: [id], onDelete: Cascade)
+  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, missionId])
+  @@index([userId])
+  @@map("mission_completions")
+}
+
+// User mission submissions and verification results (for backward compatibility & logging)
+model Submission {
+  id          String           @id @default(uuid())
+  userId      String           @map("user_id")
+  missionId   String           @map("mission_id")
+  status      SubmissionStatus @default(PENDING)
+  score       Int              @default(0)
+  output      String?
+  createdAt   DateTime         @default(now()) @map("created_at")
+
+  user        User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  mission     Mission          @relation(fields: [missionId], references: [id], onDelete: Cascade)
+
+  @@map("submissions")
+}
+
+enum SubmissionStatus {
+  PENDING
+  RUNNING
+  PASSED
+  FAILED
+  ERROR
+}
+
+// User lesson progress tracking
+model Progress {
+  id          String    @id @default(uuid())
+  userId      String    @map("user_id")
+  lessonId    String    @map("lesson_id")
+  isCompleted Boolean   @default(false) @map("is_completed")
+  startedAt   DateTime  @default(now()) @map("started_at")
+  completedAt DateTime? @map("completed_at")
+  updatedAt   DateTime  @updatedAt @map("updated_at")
+
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  lesson      Lesson    @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, lessonId])
+  @@index([userId])
+  @@map("progress")
+}
+
+// Badges and achievements earned
+model Badge {
+  id          String      @id @default(uuid())
+  slug        String      @unique
+  name        String
+  description String
+  icon        String?
+  createdAt   DateTime    @default(now()) @map("created_at")
+
+  users       UserBadge[]
+
+  @@map("badges")
+}
+
+model UserBadge {
+  id        String   @id @default(uuid())
+  userId    String   @map("user_id")
+  badgeId   String   @map("badge_id")
+  awardedAt DateTime @default(now()) @map("awarded_at")
+
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  badge     Badge    @relation(fields: [badgeId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, badgeId])
+  @@map("user_badges")
+}
+
+// Interactive Lab Sessions (eBPF VM / Container environments)
+model LabSession {
+  id          String     @id @default(uuid())
+  userId      String     @map("user_id")
+  labType     String     @map("lab_type") // e.g., "ebpf-xdp", "kernel-tracing"
+  containerId String?    @map("container_id") // Sandboxed environment identifier
+  status      LabStatus  @default(INITIALIZING)
+  expiresAt   DateTime   @map("expires_at")
+  createdAt   DateTime   @default(now()) @map("created_at")
+  updatedAt   DateTime   @updatedAt @map("updated_at")
+
+  user        User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("lab_sessions")
+}
+
+enum LabStatus {
+  INITIALIZING
+  RUNNING
+  STOPPED
+  EXPIRED
+  TERMINATED
+}
+
+enum Difficulty {
+  BEGINNER
+  INTERMEDIATE
+  ADVANCED
+}
+
+// Stage 7: Isolated Lab Execution Infrastructure Models
+
+model ExecutionJob {
+  id                  String             @id @default(uuid())
+  userId              String             @map("user_id")
+  missionSlug         String?            @map("mission_slug")
+  exampleSlug         String?            @map("example_slug")
+  sourceHash          String?            @map("source_hash")
+  status              ExecutionJobStatus @default(QUEUED)
+  output              String?            @db.Text
+  errorCode           String?            @map("error_code")
+  logs                String?            @db.Text // JSON array of audit trace messages
+  validationResult    String?            @map("validation_result") @db.Text // JSON validation feedback
+  createdAt           DateTime           @default(now()) @map("created_at")
+  startedAt           DateTime?          @map("started_at")
+  completedAt         DateTime?          @map("completed_at")
+  expiresAt           DateTime?          @map("expires_at")
+
+  user                User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  lab                 Lab?
+
+  @@index([userId, status])
+  @@index([createdAt])
+  @@map("execution_jobs")
+}
+
+enum ExecutionJobStatus {
+  REQUESTED
+  QUEUED
+  CREATING
+  READY
+  RUNNING
+  COLLECTING
+  VALIDATING
+  COMPLETED
+  FAILED
+  TIMEOUT
+  CANCELLED
+  RESOURCE_LIMIT
+}
+
+model Lab {
+  id             String        @id @default(uuid())
+  executionJobId String        @unique @map("execution_job_id")
+  provider       String        @default("mock") // "mock", "docker", "firecracker"
+  templateId     String        @map("template_id")
+  status         LabState      @default(CREATING)
+  containerId    String?       @map("container_id")
+  createdAt      DateTime      @default(now()) @map("created_at")
+  expiresAt      DateTime      @map("expires_at")
+  destroyedAt    DateTime?     @map("destroyed_at")
+
+  job            ExecutionJob  @relation(fields: [executionJobId], references: [id], onDelete: Cascade)
+
+  @@index([status, expiresAt])
+  @@map("labs")
+}
+
+enum LabState {
+  CREATING
+  READY
+  RUNNING
+  TERMINATED
+  DESTROYED
+  FAILED
+}
+
+// Stage 8: Progress, XP, Achievements & Gamification Models
+
+model XPTransaction {
+  id         String       @id @default(uuid())
+  userId     String       @map("user_id")
+  amount     Int
+  reason     String
+  sourceType XPSourceType @map("source_type")
+  sourceId   String       @map("source_id")
+  rewardType String       @map("reward_type") // e.g. "LESSON_COMPLETION", "MISSION_COMPLETION"
+  createdAt  DateTime     @default(now()) @map("created_at")
+
+  user       User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, sourceType, sourceId, rewardType]) // Critical: Enforces Idempotency at DB level
+  @@index([userId, createdAt])
+  @@map("xp_transactions")
+}
+
+enum XPSourceType {
+  LESSON
+  MISSION
+  COURSE
+  PLAYGROUND
+  ACHIEVEMENT
+}
+
+model Achievement {
+  id          String            @id @default(uuid())
+  slug        String            @unique
+  title       String
+  description String
+  category    String            @default("GENERAL") // "FOUNDATIONS", "TRACING", "NETWORKING", "EBPF"
+  icon        String?
+  xpReward    Int               @default(50) @map("xp_reward")
+  requirement String            // Technical criteria
+  isHidden    Boolean           @default(false) @map("is_hidden")
+  order       Int               @default(0)
+  createdAt   DateTime          @default(now()) @map("created_at")
+
+  users       UserAchievement[]
+
+  @@map("achievements")
+}
+
+model UserAchievement {
+  id            String      @id @default(uuid())
+  userId        String      @map("user_id")
+  achievementId String      @map("achievement_id")
+  unlockedAt    DateTime    @default(now()) @map("unlocked_at")
+
+  user          User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  achievement   Achievement @relation(fields: [achievementId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, achievementId]) // Critical: Prevents duplicate unlocks
+  @@index([userId])
+  @@map("user_achievements")
+}
+
+model UserStreak {
+  id               String    @id @default(uuid())
+  userId           String    @unique @map("user_id")
+  currentStreak    Int       @default(0) @map("current_streak")
+  longestStreak    Int       @default(0) @map("longest_streak")
+  lastActivityDate DateTime? @map("last_activity_date") // Stored as midnight UTC
+  updatedAt        DateTime  @updatedAt @map("updated_at")
+
+  user             User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("user_streaks")
+}
+

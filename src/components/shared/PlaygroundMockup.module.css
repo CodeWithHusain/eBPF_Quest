@@ -1,0 +1,219 @@
+.wrapper {
+  background-color: var(--bg-primary);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  box-shadow: var(--shadow-lg), 0 0 35px rgba(56, 189, 248, 0.07);
+  font-family: var(--font-mono);
+  max-width: 900px;
+  margin: 0 auto;
+  text-align: left;
+}
+
+.windowHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-3) var(--space-4);
+  background-color: #0b0f15;
+  border-bottom: 1px solid var(--border-subtle);
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.leftMeta {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.windowControls {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.dotClose,
+.dotMinimize,
+.dotMaximize {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.dotClose { background-color: #ef4444; }
+.dotMinimize { background-color: #f59e0b; }
+.dotMaximize { background-color: #10b981; }
+
+.windowTitle {
+  font-size: var(--text-xs);
+  color: var(--text-primary);
+  font-weight: var(--font-weight-medium);
+}
+
+.rightMeta {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.envTag {
+  font-size: 10px;
+  color: var(--text-faint);
+  background-color: var(--bg-tertiary);
+  padding: 2px 6px;
+  border-radius: var(--radius-sm);
+}
+
+/* Split Grid */
+.splitGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 768px) {
+  .splitGrid {
+    grid-template-columns: 1.1fr 1fr;
+  }
+}
+
+.editorPanel {
+  display: flex;
+  flex-direction: column;
+  border-bottom: 1px solid var(--border-subtle);
+  background-color: var(--bg-code);
+}
+
+@media (min-width: 768px) {
+  .editorPanel {
+    border-bottom: none;
+    border-right: 1px solid var(--border-subtle);
+  }
+}
+
+.outputPanel {
+  display: flex;
+  flex-direction: column;
+  background-color: #070a0e;
+}
+
+.panelBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-2) var(--space-4);
+  background-color: var(--bg-secondary);
+  border-bottom: 1px solid var(--border-subtle);
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+}
+
+.tabActive {
+  color: var(--accent-cyan);
+  font-weight: var(--font-weight-medium);
+}
+
+.langTag {
+  font-size: 10px;
+  color: var(--text-faint);
+}
+
+.codeView {
+  padding: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-height: 220px;
+  overflow-x: auto;
+}
+
+.codeLine {
+  display: flex;
+  font-size: var(--text-xs);
+  line-height: 1.6;
+}
+
+.lineNum {
+  width: 28px;
+  color: var(--text-faint);
+  user-select: none;
+  text-align: right;
+  padding-right: var(--space-3);
+}
+
+.codeContent {
+  color: #e2e8f0;
+  white-space: pre;
+}
+
+.outputView {
+  padding: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  min-height: 220px;
+  font-size: var(--text-xs);
+}
+
+.outputTableHeader {
+  display: grid;
+  grid-template-columns: 60px 80px 80px 1fr;
+  color: var(--text-muted);
+  font-weight: var(--font-weight-semibold);
+  padding-bottom: var(--space-2);
+  border-bottom: 1px solid var(--border-subtle);
+  font-size: 10px;
+  letter-spacing: 0.05em;
+}
+
+.outputTableRow {
+  display: grid;
+  grid-template-columns: 60px 80px 80px 1fr;
+  padding: 2px 0;
+  color: var(--text-secondary);
+  font-size: 11px;
+}
+
+.evtPid { color: var(--accent-cyan); }
+.evtComm { color: #f8fafc; }
+.evtName { color: var(--accent-emerald); }
+.evtTs { color: var(--text-muted); }
+
+.tailStream {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: auto;
+  padding-top: var(--space-3);
+  font-size: 10px;
+  color: var(--accent-emerald);
+}
+
+.streamDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--accent-emerald);
+}
+
+.panelFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-2) var(--space-4);
+  background-color: var(--bg-secondary);
+  border-top: 1px solid var(--border-subtle);
+  font-size: 11px;
+}
+
+.footerNotice {
+  color: var(--text-muted);
+  font-size: 10px;
+  font-style: italic;
+}
+
+.verifierStatus {
+  color: var(--accent-emerald);
+  font-size: 10px;
+}

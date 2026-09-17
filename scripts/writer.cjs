@@ -1,0 +1,1 @@
+﻿const fs = require("fs"); const file = process.argv[2]; const b64 = process.argv[3]; fs.writeFileSync(file, Buffer.from(b64, "base64").toString("utf8"), "utf8"); console.log("Wrote", file);

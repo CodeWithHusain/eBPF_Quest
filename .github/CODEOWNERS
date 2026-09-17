@@ -1,0 +1,8 @@
+# BPFQuest Codeowners
+# Primary maintainers responsible for reviewing and approving changes
+
+*                   @bpfquest/maintainers
+/src/content/       @bpfquest/curriculum-team
+/src/lib/labs/      @bpfquest/infrastructure-team
+/src/lib/security/  @bpfquest/security-team
+/docs/              @bpfquest/docs-team

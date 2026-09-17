@@ -1,0 +1,67 @@
+version: '3.8'
+
+# ==============================================================================
+# BPFQuest Production Stack Composition
+# Web App + PostgreSQL + Isolated Lab Runner Network
+# ==============================================================================
+
+services:
+  # PostgreSQL Database Service
+  db:
+    image: postgres:15-alpine
+    container_name: bpfquest-db
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-bpfquest}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-bpfquest_secure_pass}
+      POSTGRES_DB: ${POSTGRES_DB:-bpfquest_prod}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - app-net
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-bpfquest}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+          cpus: '1.0'
+    restart: unless-stopped
+
+  # BPFQuest Next.js Application
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: bpfquest-web
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      NODE_ENV: production
+      DATABASE_URL: postgresql://${POSTGRES_USER:-bpfquest}:${POSTGRES_PASSWORD:-bpfquest_secure_pass}@db:5432/${POSTGRES_DB:-bpfquest_prod}?schema=public
+      NEXTAUTH_URL: ${NEXTAUTH_URL:-http://localhost:3000}
+      NEXTAUTH_SECRET: ${NEXTAUTH_SECRET}
+      GITHUB_ID: ${GITHUB_ID}
+      GITHUB_SECRET: ${GITHUB_SECRET}
+      MOCK_EXECUTION: ${MOCK_EXECUTION:-true}
+    ports:
+      - "3000:3000"
+    networks:
+      - app-net
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+          cpus: '1.5'
+    restart: unless-stopped
+
+volumes:
+  pgdata:
+    driver: local
+
+networks:
+  app-net:
+    driver: bridge

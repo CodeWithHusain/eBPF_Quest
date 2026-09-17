@@ -1,0 +1,72 @@
+.card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+  transition: all var(--transition-normal);
+  backdrop-filter: blur(8px);
+}
+
+/* Padding variants */
+.p-none .body {
+  padding: 0;
+}
+
+.p-sm .body {
+  padding: var(--space-3);
+}
+
+.p-md .body {
+  padding: var(--space-6);
+}
+
+.p-lg .body {
+  padding: var(--space-8);
+}
+
+/* Header & Footer */
+.header {
+  padding: var(--space-4) var(--space-6);
+  border-bottom: 1px solid var(--border-subtle);
+  background-color: rgba(13, 17, 23, 0.4);
+}
+
+.footer {
+  padding: var(--space-4) var(--space-6);
+  border-top: 1px solid var(--border-subtle);
+  background-color: rgba(13, 17, 23, 0.4);
+}
+
+.body {
+  flex: 1 1 auto;
+}
+
+/* Variants */
+.default {
+  box-shadow: var(--shadow-sm);
+}
+
+.bordered {
+  border-color: var(--border-default);
+  box-shadow: var(--shadow-md);
+}
+
+.interactive {
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+}
+
+.interactive:hover {
+  border-color: var(--border-active);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg), 0 0 20px rgba(56, 189, 248, 0.1);
+}
+
+.terminal {
+  background-color: var(--bg-code);
+  border-color: var(--border-default);
+  font-family: var(--font-mono);
+}
