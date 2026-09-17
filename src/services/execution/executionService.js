@@ -131,6 +131,10 @@ export class ExecutionService {
         where: { id: jobId },
       });
     } catch (err) {
+      job = null;
+    }
+
+    if (!job) {
       job = this.inMemoryJobs.get(jobId);
     }
 
@@ -168,6 +172,10 @@ export class ExecutionService {
     try {
       job = await prisma.executionJob.findUnique({ where: { id: jobId } });
     } catch (err) {
+      job = null;
+    }
+
+    if (!job) {
       job = this.inMemoryJobs.get(jobId);
     }
 

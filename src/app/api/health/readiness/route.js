@@ -4,6 +4,8 @@ import { defaultJobQueue } from '@/services/execution/jobQueue';
 import { defaultLabOrchestrator } from '@/services/labs/labOrchestrator';
 import { logger } from '@/lib/observability/logger';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET() {
   const health = {
     status: 'ok',

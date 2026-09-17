@@ -174,12 +174,14 @@ export const achievementService = {
           unlockedMap.set(r.achievement.slug, r.unlockedAt);
         }
       } catch (err) {
-        // In-memory fallback
-        for (const [key, val] of inMemoryUserAchievements.entries()) {
-          const [uId, slug] = key.split(':');
-          if (uId === userId) {
-            unlockedMap.set(slug, val.unlockedAt);
-          }
+        // Database query failed, rely on in-memory
+      }
+
+      // Merge in-memory achievements if present
+      for (const [key, val] of inMemoryUserAchievements.entries()) {
+        const [uId, slug] = key.split(':');
+        if (uId === userId) {
+          unlockedMap.set(slug, val.unlockedAt);
         }
       }
     }

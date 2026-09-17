@@ -92,7 +92,12 @@ export const xpService = {
         _sum: { amount: true },
       });
 
-      const totalXP = aggregate._sum.amount || 0;
+      let totalXP = aggregate._sum?.amount || 0;
+      for (const tx of inMemoryXPLedger.values()) {
+        if (tx.userId === userId) {
+          totalXP += tx.amount;
+        }
+      }
       return getLevelProgress(totalXP);
     } catch (err) {
       // In-memory fallback summation
